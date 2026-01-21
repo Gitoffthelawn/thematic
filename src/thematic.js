@@ -137,17 +137,20 @@ async function rotate () {
     return
   }
 
-  let currentId = items.currentId
-  let currentIndex = items.userThemes.findIndex((t) => t.id === currentId)
+  const previousId = items.currentId
+  console.log('From: ' + previousId)
+  const previousIndex = items.userThemes.findIndex((t) => t.id === previousId)
 
-  if (currentIndex === -1) {
+  if (previousIndex === -1) {
     // this will get resolved below as 1 will be added to this :/
     console.log('User theme index not found')
+  } else {
+    await browser.management.setEnabled(previousId, false)
   }
 
-  currentIndex = await chooseNext(currentIndex, items)
-  currentId = items.userThemes[currentIndex].id
-  console.log(currentId)
+  const currentIndex = await chooseNext(previousIndex, items)
+  const currentId = items.userThemes[currentIndex].id
+  console.log('To: ' + currentId)
 
   await browser.storage.local.set({ currentId: currentId })
   await browser.management.setEnabled(currentId, true)
