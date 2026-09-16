@@ -6,7 +6,7 @@
         }
     },
     "background": {
-      "service_worker": "src/background.js"
+      "scripts": ["src/thematic.js"]
     },
     "action": {
         "default_icon": {
